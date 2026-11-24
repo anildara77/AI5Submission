@@ -1,0 +1,88 @@
+{
+  "eval_cases": [
+    {
+      "eval_case_id": "express_late_delivery_auto_credit",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "My Express 48h shipment ORD-10042 arrived 48 hours late. Please check what SLA credit I qualify for and issue it."
+          }
+        ]
+      },
+      "reference": {
+        "response": {
+          "role": "model",
+          "parts": [
+            {
+              "text": "Order ORD-10042 (Express 48h, delayed 48 hours, paid shipping fee $35.00) qualifies under policy SLA-EXP-02 for a 100% shipping fee credit of $35.00 USD. Because $35.00 is at or below the $100.00 autonomous limit (SLA-GOV-09), the $35.00 shipping_fee_credit is issued immediately with a remediation ID and gateway reference."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "eval_case_id": "cold_chain_spoilage_hitl_gate",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "Order ORD-10089 is a cold-chain biologics shipment that suffered a thermal excursion and arrived damaged. Please process my full refund."
+          }
+        ]
+      },
+      "reference": {
+        "response": {
+          "role": "model",
+          "parts": [
+            {
+              "text": "Order ORD-10089 (cold_chain_biologics, peak temperature 14.2C > 8.0C limit, merchandise $440.00 + shipping $40.00) qualifies under SLA-CLD-04 for a full_order_refund of $480.00 USD. Because $480.00 exceeds the $100.00 autonomous disbursement limit under SLA-GOV-09, execution pauses pending mandatory human supervisor approval."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "eval_case_id": "standard_ground_ontime_ineligible",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "Can I get a late-delivery refund on my Standard Ground order ORD-10115?"
+          }
+        ]
+      },
+      "reference": {
+        "response": {
+          "role": "model",
+          "parts": [
+            {
+              "text": "Order ORD-10115 (standard_ground) was delivered on time with 0 delay hours and no damage, so under policy SLA-GND-01 it is ineligible for any refund or credit ($0.00)."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "eval_case_id": "malformed_order_id_guided_recovery",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "Please check refund eligibility for order #999."
+          }
+        ]
+      },
+      "reference": {
+        "response": {
+          "role": "model",
+          "parts": [
+            {
+              "text": "Explains politely that '#999' is not a valid SwiftShip order identifier and asks the customer to provide their canonical 5-digit order ID in 'ORD-XXXXX' format (e.g., ORD-10042)."
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
